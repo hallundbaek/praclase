@@ -8,14 +8,14 @@ from lsprotocol.types import (TEXT_DOCUMENT_COMPLETION, CompletionItem,
 from pygls.server import LanguageServer
 
 @click.command()
-@click.option('-d', '--dictionary', type=click.Path(), required=True, help='Path to the dictionary file')
-@click.option('-c', '--dictionary_executable', type=click.Path(), required=True, help='Path to the dictionary executable')
-@click.option('-l', '--lexicon', type=click.Path(), required=True, help='Path to the lexicon file')
-@click.option('-x', '--lexicon_executable', type=click.Path(), required=True, help='Path to the lexicon executable')
-def cli(dictionary, dictionary_executable, lexicon, lexicon_executable):
+@click.option('-p', '--predictionary', type=click.Path(), required=True, help='Path to the predictionary file')
+@click.option('-c', '--predictionary_executable', type=click.Path(), required=True, help='Path to the predictionary executable')
+@click.option('-d', '--dictionary', type=click.Path(), required=True, help='Path to the lexicon file')
+@click.option('-x', '--lookup_executable', type=click.Path(), required=True, help='Path to the lexicon executable')
+def cli(predictionary, predictionary_executable, dictionary, lookup_executable):
     def suggestions(line):
         p = subprocess.run(
-            [dictionary_executable, dictionary],
+            [predictionary_executable, predictionary],
             input=line,
             capture_output=True,
             text=True,
@@ -33,7 +33,7 @@ def cli(dictionary, dictionary_executable, lexicon, lexicon_executable):
 
     def lookup(query):
         p = subprocess.run(
-            [lexicon_executable, lexicon],
+            [lookup_executable, dictionary],
             input=query,
             capture_output=True,
             text=True,
